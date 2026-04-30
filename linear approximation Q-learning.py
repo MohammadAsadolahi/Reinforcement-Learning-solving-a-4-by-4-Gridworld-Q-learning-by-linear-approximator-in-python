@@ -59,7 +59,7 @@ class GridWorld:
         for state in self.qTable:
             for action in self.qTable[state]:
                 self.qTable[state][action] = self.qTable[state][action] + (
-                            0.05 * (newQ[state][action] - self.qTable[state][action]))
+                    0.05 * (newQ[state][action] - self.qTable[state][action]))
 
     def printPolicy(self, policy):
         line = ""
@@ -75,7 +75,7 @@ class GridWorld:
         print(line)
         print("----------------------------")
 
-    def printVaues(self,vTable):
+    def printVaues(self, vTable):
         line = ""
         counter = 0
         for item in vTable:
@@ -155,52 +155,60 @@ class GridWorld:
 
 class linearApproximator:
     def __init__(self):
-        self.theta = np.array([0.1,0.1,0.1,0.1])
+        self.theta = np.array([0.1, 0.1, 0.1, 0.1])
 
     def state2Value(self, state):
         return ((state[0]-1) * self.theta[0]) + ((state[1]-1.5) * self.theta[1]) + (((state[0] * state[1]-3) * self.theta[2])) + self.theta[3]
+
     def applyGD(self, state, target, learningrate=0.01):
         prediction = self.state2Value(state)
-        self.theta[0] = self.theta[0] + learningrate * ((target - prediction) * state[0])
-        self.theta[1] = self.theta[1] + learningrate * ((target - prediction) * state[1])
-        self.theta[2] = self.theta[2] + learningrate * ((target - prediction) * (state[0] * state[1]))
+        self.theta[0] = self.theta[0] + learningrate * \
+            ((target - prediction) * state[0])
+        self.theta[1] = self.theta[1] + learningrate * \
+            ((target - prediction) * state[1])
+        self.theta[2] = self.theta[2] + learningrate * \
+            ((target - prediction) * (state[0] * state[1]))
         self.theta[3] = self.theta[3] + learningrate * (target - prediction)
+
 
 class OneHotApproximator:
     def __init__(self):
-        self.qTable={}
+        self.qTable = {}
+
     def setValue(self, stateAction, value):
-        self.qTable[stateAction]=value
+        self.qTable[stateAction] = value
+
     def getValue(self, stateAction):
         if stateAction not in self.qTable:
             return 0
         return self.qTable[stateAction]
 
-approximator=OneHotApproximator()
-approximator.setValue(((2,2),'U'),25)
-approximator.getValue(((2,2),'U'))
-print(approximator.getValue(((2,2),'U')))
-#approximator = OneHotApproximator()
-approximator=linearApproximator()
+
+approximator = OneHotApproximator()
+approximator.setValue(((2, 2), 'U'), 25)
+approximator.getValue(((2, 2), 'U'))
+print(approximator.getValue(((2, 2), 'U')))
+# approximator = OneHotApproximator()
+approximator = linearApproximator()
 env = GridWorld()
-exploreRate=0.02
-policy = enviroment.getRandomPolicy()
-#policy = {(0, 0): 'R', (0, 1): 'R', (0, 2): 'D', (0, 3): 'D', (1, 0): 'R', (1, 1): 'D', (1, 2): 'D', (1, 3): 'D',
+exploreRate = 0.02
+policy = env.getRandomPolicy()
+# policy = {(0, 0): 'R', (0, 1): 'R', (0, 2): 'D', (0, 3): 'D', (1, 0): 'R', (1, 1): 'D', (1, 2): 'D', (1, 3): 'D',
 #           (2, 0): 'R', (2, 1): 'D', (2, 2): 'R', (2, 3): 'D', (3, 0): 'R', (3, 1): 'R', (3, 2): 'R'}
 env.printPolicy(policy)
 
 for i in range(1000):
-    state=env.getCurrentState()
-    step=0
-    while (not(env.is_terminal(state))) and step<30:
-        chosedAction,nextState,reward=env.move(state,policy,exploreRate)
-        state=nextState
+    state = env.getCurrentState()
+    step = 0
+    while (not (env.is_terminal(state))) and step < 30:
+        chosedAction, nextState, reward = env.move(state, policy, exploreRate)
+        state = nextState
         step += 1
         if env.is_terminal(nextState):
-            target=reward
+            target = reward
         else:
-            target=reward+0.9*approximator.state2Value(nextState)
-        approximator.applyGD(state,target)
-vTable=[approximator.state2Value(state) for state in env.actions.keys()]
+            target = reward+0.9*approximator.state2Value(nextState)
+        approximator.applyGD(state, target)
+vTable = [approximator.state2Value(state) for state in env.actions.keys()]
 env.printVaues(vTable)
 print(f"exploited:{env.exploited}  explored:{env.explored}")
