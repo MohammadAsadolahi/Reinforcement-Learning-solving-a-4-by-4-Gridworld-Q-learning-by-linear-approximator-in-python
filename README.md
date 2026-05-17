@@ -157,7 +157,7 @@ With $\varepsilon = 0.02$, the agent maintains a ~2% exploration rate — suffic
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/Reinforcement-Learning-solving-a-4-by-4-Gridworld-Q-learning-by-linear-approximator-in-python.git
+git clone https://github.com/MohammadAsadolahi/Reinforcement-Learning-solving-a-4-by-4-Gridworld-Q-learning-by-linear-approximator-in-python.git
 cd Reinforcement-Learning-solving-a-4-by-4-Gridworld-Q-learning-by-linear-approximator-in-python
 
 # Install dependencies
@@ -190,6 +190,18 @@ All hyperparameters are tunable directly in the source:
 
 ---
 
+## Author
+
+**Mohammad Asadolahi** — Senior Agentic AI Engineer
+
+Focus: Agentic AI Architectures In The Wild
+
+[![GitHub](https://img.shields.io/badge/GitHub-MohammadAsadolahi-181717?logo=github)](https://github.com/MohammadAsadolahi)
+
+---
+
 <div align="center">
 <sub>Built as a pedagogical demonstration of the mathematical foundations underlying modern deep reinforcement learning systems.</sub>
+<br/>
+<sub>This README was generated with AI assistance.</sub>
 </div>

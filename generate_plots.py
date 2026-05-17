@@ -2,7 +2,7 @@
 Reinforcement Learning: Q-Learning with Linear Function Approximation
 Comprehensive Visualization Suite for 4x4 Gridworld
 
-Author: Chief AI Officer, Google
+Author: Mohammad Asadolahi
 """
 
 import os
